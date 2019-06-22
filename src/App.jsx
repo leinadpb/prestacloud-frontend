@@ -75,7 +75,9 @@ class App extends React.Component {
   }
 
   handleSignIn = (user) => {
-    this.getUser(true);
+    this.setState({
+      user
+    })
   }
 
   handleSignOut = () => {
