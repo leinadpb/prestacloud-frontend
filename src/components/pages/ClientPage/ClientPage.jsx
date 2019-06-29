@@ -68,7 +68,7 @@ class ClientPage extends React.Component {
                 clients.map(client => (
                   <tr>
                     <td>{client.first_name}</td>
-                    <td>{`${client.last_name} ${client.last_name}`}</td>
+                    <td>{client.last_name}</td>
                     <td>{client.goverment_id}</td>
                     <td>{client.phone}</td>
                     <td>{client.loans.length}</td>
