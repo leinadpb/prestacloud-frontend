@@ -6,6 +6,7 @@ const ModalWrapper = styled.div`
   width: ${props => props.width};
   height: ${props => props.height};
   background-color: white;
+  overflow: scroll;
 `;
 
 class PCModal extends React.Component {

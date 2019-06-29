@@ -42,7 +42,7 @@ class QuotesList extends React.Component {
     return (
       <>
         <Title>
-          <span>Quotas</span>
+          <span>Cuotas</span>
         </Title>
         <table class="table">
           <thead>

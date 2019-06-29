@@ -130,7 +130,7 @@ class CreateArticle extends React.Component {
       <Wrapper>
         <Title>
           <span>
-            Crear cliente nuevo
+            Agregar articulo
           </span>
         </Title>
         <Content>
