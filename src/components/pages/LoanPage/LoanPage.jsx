@@ -23,11 +23,9 @@ const Title = styled.div`
 
 const TableWrapper = styled.div`
   padding: 16px;
-  width: 100%;
+  width: 95%;
   height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  overflow: auto;
 `;
 
 class LoanPage extends React.Component {
@@ -79,11 +77,12 @@ class LoanPage extends React.Component {
         <Title>
           <h2>Todos los préstamos</h2>
         </Title>
-        <TableWrapper>
-          <table class="table">
+          <table class="table" style={{ overflowX: 'scroll' }}>
             <thead>
               <tr>
-                <th>Monto a pagar</th>
+                <th>Total a pagar</th>
+                <th>Monto restante</th>
+                <th>Estado</th>
                 <th>Adeudor</th>
                 <th>Monto quota</th>
                 <th>Total de cuotas</th>
@@ -99,9 +98,11 @@ class LoanPage extends React.Component {
               {
                 loans.map(loan => (
                   <tr>
-                    <td>{loan.amount_to_pay}</td>
+                    <td>{loan.appraise * 1.18}</td>
+                    <td>{ loan.amount_to_pay }</td>
+                    <td>{ loan.status }</td>
                     <td>{`${loan.client.first_name} ${loan.client.last_name}`}</td>
-                    <td>{`RD${numeral(loan.amount_to_pay / loan.quotes.length).format("$0.00")}`}</td>
+                    <td>{`RD${numeral(loan.appraise / loan.quotes.length).format("$0.00")}`}</td>
                     <td>{`${loan.quotes.length}`}</td>
                     <td>{this.getDuration(loan.duration)}</td>
                     <td>{Number(loan.tax) * 100}%</td>
@@ -116,7 +117,6 @@ class LoanPage extends React.Component {
               }
             </tbody>
           </table>
-        </TableWrapper>
         <PCModal
           open={openQuotesModal}
           handleClose={this.closeQuotesModal}

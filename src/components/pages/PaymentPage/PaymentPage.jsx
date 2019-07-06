@@ -109,6 +109,7 @@ class PaymentPage extends React.Component {
     this.state = {
       client: undefined,
       openPaymentModal: false,
+      payLoan: false
     }
   }
   getDuration = (months) => {
@@ -128,8 +129,19 @@ class PaymentPage extends React.Component {
           goverment_id: id
         }
       }).then(data => {
-        const result = data.data;
+        let result = data.data;
         console.log(result.client);
+        if (!!result.client.loans) {
+          result.client.loans = result.client.loans.filter(x => x.status === 'open');
+          result.client.loans.quotes = result.client.loans.map(loan => {
+            return loan.quotes.map(quote => {
+              return {
+                ...quote,
+                blocked: true
+              }
+            })
+          });
+        }
         if (!result.client) {
           // this.shouldCreateNewClient(id);
         } else {
@@ -158,10 +170,25 @@ class PaymentPage extends React.Component {
     }
   }
 
-  payQuote = (quote) => {
+  payQuote = (quote, loan) => {
     console.log(quote);
     this.setState({
-      quote: quote
+      quote: quote,
+      payLoan: false,
+      loan: loan
+    }, () => {
+      this.setState({
+        openPaymentModal: true
+      })
+    });
+  }
+
+  payLoan = (loan) => {
+    console.log(loan);
+    this.setState({
+      loan: loan,
+      payLoan: true,
+      quote: undefined
     }, () => {
       this.setState({
         openPaymentModal: true
@@ -175,7 +202,7 @@ class PaymentPage extends React.Component {
     });
   }
 
-  changeQuote = (quote) => {
+  changeQuote = (quote, loan) => {
     console.log('Retrieve: ', quote);
     
     let client = {...this.state.client};
@@ -192,7 +219,23 @@ class PaymentPage extends React.Component {
     });
     this.setState({
       client
+    }, () => {
+      this.changeLoan(loan);
     });
+  }
+
+  changeLoan = loan => {
+    let client = this.state.client;
+    client.loans.forEach(_loan => {
+      if (_loan.id === loan.id) {
+        console.log('Found a match!!', _loan);
+        _loan.amount_to_pay = loan.amount_to_pay;
+        _loan.status = loan.status;
+      }
+    })
+    this.setState({
+      client
+    })
   }
 
   setStripeId = (stripe_id) => {
@@ -206,8 +249,54 @@ class PaymentPage extends React.Component {
     })
   }
 
+  getOpenLoansWithBlockedQuotes = (loans) => {
+    let return_value = [];
+    loans.forEach(loan => {
+      if(loan.status === "open") {
+        loan.quotes = this.getBlockedQuotes(loan.quotes);
+        return_value.push(loan)
+      }
+    })
+    console.log('blocked >>>>>>', return_value);
+    return return_value;
+  }
+
+  getBlockedQuotes = (quotes) => {
+    let hasUnBlocked = false;
+
+    for(let i = 0; i < quotes.length; i++) {
+      let quote = quotes[i];
+      if (quote.amount > 0) {
+        if (quote.state === 'new' || quote.state === 'partial') {
+          if (!hasUnBlocked) {
+            quotes[i].blocked = false;
+            hasUnBlocked = true;
+          } else {
+            quotes[i].blocked = true;
+          }
+        }
+      }
+    }
+    // quotes.forEach(quote => {
+    //   if (quote.blocked && !hasUnBlocked && quote.amount > 0) {
+    //     console.log('WILL CLOK QUOTE >>>>>>>>  ', quote);
+    //     quote.blocked = false;
+    //     hasUnBlocked = true;
+    //   } else {
+    //     quote.blocked = true;
+    //   }
+    // })
+    return quotes;
+  }
+
   render() {
-    const { client, openPaymentModal, quote } = this.state;
+    const { client, openPaymentModal, quote, loan, payLoan } = this.state;
+    let paymentModalTitle = "Pagar Cuote";
+    if (payLoan) {
+      paymentModalTitle = "Pagar Prestamo";
+    }
+    const openLoans = !!client ? this.getOpenLoansWithBlockedQuotes(client.loans) : [];
+    console.log('open laons >>>>>', openLoans);
     return (
       <PageWrapper>
         <Title>
@@ -249,13 +338,14 @@ class PaymentPage extends React.Component {
                 </table>
                 <br />
                 <div>
-                  <h4>Prestamos Abiertos</h4>
+                  {openLoans.length > 0 ? <h4>Prestamos Abiertos</h4> : <h4>Este cliente no tiene prestamos abiertos.</h4>}
                 </div>
                 <br />
                 <br />
                 {
-                  client.loans.map(loan => (
-                    <>
+                  openLoans.map(loan => (
+                    loan.status !== "open" ? null : (
+                      <>
                       <LoanInfoWrapper loan>
                         <LoanInfo>
                           <InfoLabel loan>
@@ -299,18 +389,18 @@ class PaymentPage extends React.Component {
                         </LoanInfo>
                         <LoanInfo>
                           <InfoLabel loan>
-                            <span>Categoria</span>
-                          </InfoLabel>
-                          <InfoValue loan>
-                            <span>{ loan.category.name }</span>
-                          </InfoValue>
-                        </LoanInfo>
-                        <LoanInfo>
-                          <InfoLabel loan>
                             <span>Creado por</span>
                           </InfoLabel>
                           <InfoValue loan>
                             <span>{loan.employee.full_name}</span>
+                          </InfoValue>
+                        </LoanInfo>
+                        <LoanInfo>
+                          <InfoLabel loan>
+                            <span></span>
+                          </InfoLabel>
+                          <InfoValue loan>
+                            <Button type="primary" variant="contained" onClick={() => this.payLoan(loan)}>Pagar</Button>
                           </InfoValue>
                         </LoanInfo>
                       </LoanInfoWrapper>
@@ -364,7 +454,7 @@ class PaymentPage extends React.Component {
                                   </InfoLabel>
                                   <InfoValue>
                                     {
-                                      quote.state === "complete" ? <span style={{ fontWeight: '600' }}>PAGADA</span> : <Button type="secondary" variant="outlined" onClick={() => this.payQuote(quote)}>Pagar</Button>
+                                      quote.state === "complete" ? <span style={{ fontWeight: '600' }}>PAGADA</span> : <Button disabled={quote.blocked} type="secondary" variant="outlined" onClick={() => this.payQuote(quote, loan)}>Pagar</Button>
                                     }
                                   </InfoValue>
                                 </LoanInfo>
@@ -376,6 +466,7 @@ class PaymentPage extends React.Component {
                       <br />
                       <br />
                     </>
+                    )
                   ))
                 }
               </>
@@ -391,7 +482,7 @@ class PaymentPage extends React.Component {
           description="Pagar cuota"
         >
           <Elements>
-            <PaymentQuoteContent setStripeId={this.setStripeId} client={client} quote={quote} goverment_id={ !!client ? client.goverment_id : ''} handleClose={this.closePaymentModal} changeQuote={this.changeQuote} />
+            <PaymentQuoteContent payLoan={payLoan} title={paymentModalTitle} setStripeId={this.setStripeId} client={client} quote={quote} loan={loan} goverment_id={ !!client ? client.goverment_id : ''} handleClose={this.closePaymentModal} changeQuote={this.changeQuote} changeLoan={this.changeLoan} />
           </Elements>
         </PCModal>
       </PageWrapper>

@@ -23,26 +23,42 @@ class PaymentQuoteContent extends React.Component {
 
   makePayment = () => {
     const { type, total_to_pay } = this.state;
-    const { quote, goverment_id } = this.props;
+    const { quote, goverment_id, loan} = this.props;
     this.setState({
       isLoading: true,
     }, () => {
-      axios.post(`${ApiServer}/api/v1/payment/quote?type=${type}&quote_id=${quote.id}&amount=${total_to_pay}&goverment_id=${goverment_id}`).then(data => {
-        console.log(data);
-        this.setState({
-          amount_to_return: data.data.amount_to_return,
-          isPayed: true,
-          isLoading: false
-        });
-        this.props.changeQuote(data.data.quote);
-      })
-    })
+      const { payLoan } = this.props;
+      if (payLoan) {
+        axios.post(`${ApiServer}/api/v1/payment/loan?type=${type}&loan_id=${loan.id}&amount=${total_to_pay}&goverment_id=${goverment_id}`).then(data => {
+          console.log(data);
+          this.setState({
+            amount_to_return: data.data.amount_to_return,
+            isPayed: true,
+            isLoading: false
+          });
+          this.props.changeLoan(data.data.loan);
+        })
+      } else {
+        axios.post(`${ApiServer}/api/v1/payment/quote?type=${type}&quote_id=${quote.id}&amount=${total_to_pay}&goverment_id=${goverment_id}&loan_id=${loan.id}`).then(data => {
+          console.log(data);
+          this.setState({
+            amount_to_return: data.data.amount_to_return,
+            isPayed: true,
+            isLoading: false
+          });
+          this.props.changeQuote(data.data.quote, data.data.loan);
+        })
+      }
+      
+    });
    
   }
 
   render() {
-    const { quote, client } = this.props;
+    const { quote, client, title, loan, payLoan} = this.props;
     const { total_to_pay, type, userHasCard, amount_to_return, isPayed, isLoading } = this.state;
+
+    console.log(loan, client);
 
     let canPay = false;
     if (total_to_pay > 0 && type === 'cash') canPay = true;
@@ -54,11 +70,11 @@ class PaymentQuoteContent extends React.Component {
     return(
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
        <div style={{ padding: '16px' }}>
-        <h3>Pagar Cuota</h3>
+        <h3>{title}</h3>
        </div>
        <br /><br />
        <div style={{ width: '100%', padding: '16px', minHeight: '42px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-         <span style={{ fontSize: '2.0rem', fontWeight: '600' }}>RD$ {quote.amount}</span>
+         <span style={{ fontSize: '2.0rem', fontWeight: '600' }}>RD$ {payLoan ? loan.amount_to_pay : quote.amount}</span>
        </div>
        <div style={{ width: '100%', padding: '16px', minHeight: '24px', display: 'flex', justifyContent: 'center', alignItems: 'center'  }}>
          Metodo de pago
