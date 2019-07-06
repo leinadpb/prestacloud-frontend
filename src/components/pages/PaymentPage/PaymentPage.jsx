@@ -339,61 +339,61 @@ class PaymentPage extends React.Component {
                   openLoans.map(loan => (
                     loan.status !== "open" ? null : (
                       <>
-                      <LoanInfoWrapper loan>
+                      <LoanInfoWrapper loan={true}>
                         <LoanInfo>
-                          <InfoLabel loan>
+                          <InfoLabel loan={true}>
                             <span>Monto a pagar</span>
                           </InfoLabel>
-                          <InfoValue loan>
+                          <InfoValue loan={true}>
                             <span>{ loan.quotes.reduce( (acc, quote) => parseFloat(parseFloat(quote.amount) + acc) ) }</span>
                           </InfoValue>
                         </LoanInfo>
                         <LoanInfo>
-                          <InfoLabel loan>
+                          <InfoLabel loan={true}>
                             <span>Total cuotas</span>
                           </InfoLabel>
-                          <InfoValue loan>
+                          <InfoValue loan={true}>
                             <span>{`${loan.quotes.length} quotas`}</span>
                           </InfoValue>
                         </LoanInfo>
                         <LoanInfo>
-                          <InfoLabel loan>
+                          <InfoLabel loan={true}>
                             <span>Duracion</span>
                           </InfoLabel>
-                          <InfoValue loan>
+                          <InfoValue loan={true}>
                             <span>{this.getDuration(loan.duration)}</span>
                           </InfoValue>
                         </LoanInfo>
                         <LoanInfo>
-                          <InfoLabel loan>
+                          <InfoLabel loan={true}>
                             <span>Impuesto</span>
                           </InfoLabel>
-                          <InfoValue loan>
+                          <InfoValue loan={true}>
                             <span>{Number(loan.tax) * 100}%</span>
                           </InfoValue>
                         </LoanInfo>
                         <LoanInfo>
-                          <InfoLabel loan>
+                          <InfoLabel loan={true}>
                             <span>Total articulos</span>
                           </InfoLabel>
-                          <InfoValue loan>
+                          <InfoValue loan={true}>
                             <span>{loan.articles.length}</span>
                           </InfoValue>
                         </LoanInfo>
                         <LoanInfo>
-                          <InfoLabel loan>
+                          <InfoLabel loan={true}>
                             <span>Creado por</span>
                           </InfoLabel>
-                          <InfoValue loan>
+                          <InfoValue loan={true}>
                             <span>{loan.employee.full_name}</span>
                           </InfoValue>
                         </LoanInfo>
                         <LoanInfo>
-                          <InfoLabel loan>
+                          <InfoLabel loan={true}>
                             <span></span>
                           </InfoLabel>
-                          <InfoValue loan>
-                            <Button type="primary" variant="contained" onClick={() => this.payLoan(loan)}>Pagar</Button>
+                          <InfoValue loan={true}>
+                            <button onClick={() => this.payLoan(loan)}>Pagar</button>
                           </InfoValue>
                         </LoanInfo>
                       </LoanInfoWrapper>

@@ -4,6 +4,7 @@ import { ApiServer } from '../../Defaults';
 import { CircularProgress } from '@material-ui/core';
 import ClientCard from '../ClientCard/ClientCard';
 import Cards from 'react-credit-cards';
+import numeral from 'numeral';
 
 class PaymentQuoteContent extends React.Component {
   state = {
@@ -63,7 +64,10 @@ class PaymentQuoteContent extends React.Component {
     if (type === 'card' && !!client.cards) canPay = true;
 
     const clientCard = !!client.cards ? client.cards[0] : undefined;
-
+    let total_loan_due = 0;
+    if (payLoan) {
+      total_loan_due = loan.quotes.reduce( (acc, quote) => parseFloat(parseFloat(quote.amount) + acc) );
+    }
     return(
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
        <div style={{ padding: '16px' }}>
@@ -71,7 +75,7 @@ class PaymentQuoteContent extends React.Component {
        </div>
        <br /><br />
        <div style={{ width: '100%', padding: '16px', minHeight: '42px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-         <span style={{ fontSize: '2.0rem', fontWeight: '600' }}>RD$ {payLoan ? loan.quotes.reduce( (acc, quote) => parseFloat(parseFloat(quote.amount) + acc) ) : quote.amount}</span>
+         <span style={{ fontSize: '2.0rem', fontWeight: '600' }}>{ payLoan ? `RD ${numeral(total_loan_due).format("$0.00")}` : `RD$ ${quote.amount}` }</span>
        </div>
        <div style={{ width: '100%', padding: '16px', minHeight: '24px', display: 'flex', justifyContent: 'center', alignItems: 'center'  }}>
          Metodo de pago

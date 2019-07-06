@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import PCModal from '../../PCModal/PCModal';
 import CreateClient from '../../CreateClient/CreateClient';
 import CreateArticle from '../../CreateArticle/CreateArticle';
-import withNotifier from '../../../hocs/withNotifier';
 import { Routes } from '../../../Constants';
 import { withRouter } from 'react-router-dom';
 
@@ -311,11 +310,7 @@ class AddLoan extends React.Component {
       }
       
       axios.post(`${ApiServer}/api/v1/loan`, dto).then(data => {
-     
-        this.props.notify({
-          title: 'Test notification',
-          message: 'Yei!! it works perfectly.'
-        });
+    
         this.cleanForm();
         this.props.history.push({
           pathname: Routes.billPage,
@@ -566,4 +561,4 @@ class AddLoan extends React.Component {
   }
 }
 
-export default withNotifier(withRouter(AddLoan));
+export default withRouter(AddLoan);

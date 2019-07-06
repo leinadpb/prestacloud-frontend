@@ -15,7 +15,6 @@ import PaymentPage from './components/pages/PaymentPage/PaymentPage';
 import ArticlePage from './components/pages/ArticlePage/ArticlePage';
 import {Elements, StripeProvider} from 'react-stripe-elements';
 import 'react-credit-cards/lib/styles.scss';
-import 'antd/dist/antd';
 class App extends React.Component {
 
   constructor(props) {
