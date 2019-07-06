@@ -40,7 +40,7 @@ class LoanPage extends React.Component {
 
   componentWillMount = () => {
     axios.get(`${ApiServer}/api/v1/loan`).then(data => {
-      console.log(data.data.loans);
+
       this.setState({
         loans: data.data.loans,
       });

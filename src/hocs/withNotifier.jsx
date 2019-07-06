@@ -2,7 +2,6 @@ import React from 'react';
 import { notification, Icon } from 'antd';
 
 const openNotification = (data) => {
-  console.log(data);
   notification.open({
     message: data.title,
     description: data.message,

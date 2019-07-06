@@ -52,7 +52,7 @@ class ArticlePage extends React.Component {
 
   componentWillMount = () => {
     axios.get(`${ApiServer}/api/v1/article/all`).then(data => {
-      console.log(data.data.articles);
+
       this.setState({
         articles: data.data.articles.filter(x => x.state.id == 1),
         articlesCopy: data.data.articles,
@@ -61,7 +61,7 @@ class ArticlePage extends React.Component {
   }
 
   openSellDialog = (art) => {
-    console.log(art);
+
   }
 
   filterArticles = (e) => {

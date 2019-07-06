@@ -128,7 +128,7 @@ const UserName = styled.div`
 class MainLayout extends React.Component {
 
   componentWillReceiveProps = (newProps) => {
-    console.log(newProps);
+
     if (!!newProps && !!newProps.location && !!newProps.location.pathname) {
       this.selectActiveNavbarLink(newProps.location.pathname);
     }
@@ -146,8 +146,7 @@ class MainLayout extends React.Component {
       
       if (!!navbarLink) {
         const idx = menuLinks.indexOf(navbarLink);
-        console.log('DEBUG >>>>');
-        console.log(menuLinks, navbarLink, idx, pathname);
+
         menuLinks[idx].active = true;
 
         this.setState({

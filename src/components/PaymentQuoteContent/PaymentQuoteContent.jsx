@@ -30,7 +30,7 @@ class PaymentQuoteContent extends React.Component {
       const { payLoan } = this.props;
       if (payLoan) {
         axios.post(`${ApiServer}/api/v1/payment/loan?type=${type}&loan_id=${loan.id}&amount=${total_to_pay}&goverment_id=${goverment_id}`).then(data => {
-          console.log(data);
+ 
           this.setState({
             amount_to_return: data.data.amount_to_return,
             isPayed: true,
@@ -40,7 +40,7 @@ class PaymentQuoteContent extends React.Component {
         })
       } else {
         axios.post(`${ApiServer}/api/v1/payment/quote?type=${type}&quote_id=${quote.id}&amount=${total_to_pay}&goverment_id=${goverment_id}&loan_id=${loan.id}`).then(data => {
-          console.log(data);
+
           this.setState({
             amount_to_return: data.data.amount_to_return,
             isPayed: true,
@@ -58,15 +58,12 @@ class PaymentQuoteContent extends React.Component {
     const { quote, client, title, loan, payLoan} = this.props;
     const { total_to_pay, type, userHasCard, amount_to_return, isPayed, isLoading } = this.state;
 
-    console.log(loan, client);
-
     let canPay = false;
     if (total_to_pay > 0 && type === 'cash') canPay = true;
     if (type === 'card' && !!client.cards) canPay = true;
 
     const clientCard = !!client.cards ? client.cards[0] : undefined;
 
-    console.log('Quote:', quote);
     return(
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
        <div style={{ padding: '16px' }}>

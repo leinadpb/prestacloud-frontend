@@ -283,11 +283,11 @@ class AddLoan extends React.Component {
   }
 
   removeArticle = (articleIndex) => {
-    console.log(articleIndex);
+
     this.setState({
       articles: this.state.articles.filter(x => x !== this.state.articles[articleIndex]),
     }, () => {
-      console.log(this.state.articles);
+     
     })
   }
 
@@ -311,7 +311,7 @@ class AddLoan extends React.Component {
       }
       
       axios.post(`${ApiServer}/api/v1/loan`, dto).then(data => {
-        console.log(data);
+     
         this.props.notify({
           title: 'Test notification',
           message: 'Yei!! it works perfectly.'
@@ -323,7 +323,7 @@ class AddLoan extends React.Component {
           state: { loan: data.data.loan, quotes: data.data.quotes }
         });
       });
-      console.log(this.state);
+ 
     }
   }
 

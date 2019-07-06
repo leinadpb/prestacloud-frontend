@@ -58,7 +58,7 @@ class Bill extends React.Component {
 
   render() {
     const { loan, quotes } = this.props.location.state;
-    console.log(loan, quotes);
+
     return(
       <div style={{ width: '80%' }} ref={el => (this.componentRef = el)}>
         <Wrapper>

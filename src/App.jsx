@@ -97,7 +97,7 @@ class App extends React.Component {
 
   render() {
     const { isLoggedIn, menuLinks, user } = this.state;
-    console.log(this.state);
+    
     return (
       <StripeProvider apiKey={STRIPE_KEY}>
         <Router>

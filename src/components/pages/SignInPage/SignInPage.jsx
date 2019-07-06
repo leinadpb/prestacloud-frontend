@@ -81,7 +81,6 @@ class SignInPage extends React.Component {
         };
         axios.post(`${ApiServer}/users/login`, data).then(
           (data) => {
-            console.log(data);
             const token = data.headers['authorization'];
             if (!!token) {
               cookies.set('token', token);

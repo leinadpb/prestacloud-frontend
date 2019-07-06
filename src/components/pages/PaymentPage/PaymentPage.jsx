@@ -130,7 +130,6 @@ class PaymentPage extends React.Component {
         }
       }).then(data => {
         let result = data.data;
-        console.log(result.client);
         if (!!result.client.loans) {
           result.client.loans = result.client.loans.filter(x => x.status === 'open');
           result.client.loans.quotes = result.client.loans.map(loan => {
@@ -171,7 +170,6 @@ class PaymentPage extends React.Component {
   }
 
   payQuote = (quote, loan) => {
-    console.log(quote);
     this.setState({
       quote: quote,
       payLoan: false,
@@ -184,7 +182,6 @@ class PaymentPage extends React.Component {
   }
 
   payLoan = (loan) => {
-    console.log(loan);
     this.setState({
       loan: loan,
       payLoan: true,
@@ -203,14 +200,11 @@ class PaymentPage extends React.Component {
   }
 
   changeQuote = (quote, loan) => {
-    console.log('Retrieve: ', quote);
     
     let client = {...this.state.client};
-    console.log('loans: ', client.loans);
     client.loans.forEach(loan => {
       loan.quotes.forEach((_quote, index) => {
         if (_quote.id === quote.id) {
-          console.log('Found a match!!', _quote);
           _quote.amount = quote.amount;
           _quote.state = quote.state;
           _quote.payment_method = quote.payment_method;
@@ -228,7 +222,7 @@ class PaymentPage extends React.Component {
     let client = this.state.client;
     client.loans.forEach(_loan => {
       if (_loan.id === loan.id) {
-        console.log('Found a match!!', _loan);
+
         _loan.amount_to_pay = loan.amount_to_pay;
         _loan.status = loan.status;
       }
@@ -257,7 +251,7 @@ class PaymentPage extends React.Component {
         return_value.push(loan)
       }
     })
-    console.log('blocked >>>>>>', return_value);
+
     return return_value;
   }
 
@@ -296,7 +290,6 @@ class PaymentPage extends React.Component {
       paymentModalTitle = "Pagar Prestamo";
     }
     const openLoans = !!client ? this.getOpenLoansWithBlockedQuotes(client.loans) : [];
-    console.log('open laons >>>>>', openLoans);
     return (
       <PageWrapper>
         <Title>

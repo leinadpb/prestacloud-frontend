@@ -37,7 +37,7 @@ class ClientPage extends React.Component {
   }
   componentWillMount = () => {
     axios.get(`${ApiServer}/api/v1/client`).then(data => {
-      console.log(data.data.clients);
+
       this.setState({
         clients: data.data.clients
       });
