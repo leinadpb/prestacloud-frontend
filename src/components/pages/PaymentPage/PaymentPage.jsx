@@ -393,7 +393,7 @@ class PaymentPage extends React.Component {
                             <span></span>
                           </InfoLabel>
                           <InfoValue loan={true}>
-                            <button onClick={() => this.payLoan(loan)}>Pagar</button>
+                            <Button variant="contained" onClick={() => this.payLoan(loan)}>Pagar</Button>
                           </InfoValue>
                         </LoanInfo>
                       </LoanInfoWrapper>
@@ -447,7 +447,7 @@ class PaymentPage extends React.Component {
                                   </InfoLabel>
                                   <InfoValue>
                                     {
-                                      quote.state === "complete" ? <span style={{ fontWeight: '600' }}>PAGADA</span> : <Button disabled={quote.blocked} type="secondary" variant="outlined" onClick={() => this.payQuote(quote, loan)}>Pagar</Button>
+                                      quote.state === "complete" ? <span style={{ fontWeight: '600' }}>PAGADA</span> : <Button disabled={quote.blocked} variant="outlined" onClick={() => this.payQuote(quote, loan)}>Pagar</Button>
                                     }
                                   </InfoValue>
                                 </LoanInfo>

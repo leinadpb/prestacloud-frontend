@@ -113,7 +113,7 @@ class ArticlePage extends React.Component {
                     <td>{art.state.name}</td>
                     <td>{art.category_type.description}</td>
                     <td>
-                      { art.state.id == 4 ? <Button type="secondary" variant="outlined" onClick={() => this.openSellDialog(art)}>Vender</Button> : null} 
+                      { art.state.id == 4 ? <Button variant="outlined" onClick={() => this.openSellDialog(art)}>Vender</Button> : null} 
                     </td>
                   </tr>
                 ))

@@ -110,7 +110,7 @@ class LoanPage extends React.Component {
                     <td>{ loan.category.name }</td>
                     <td>{loan.employee.full_name}</td>
                     <td>
-                      <Button type="secondary" variant="outlined" onClick={() => this.seeQuotes(loan)}>Ver quotas</Button>
+                      <Button variant="outlined" onClick={() => this.seeQuotes(loan)}>Ver quotas</Button>
                     </td>
                   </tr>
                 ))

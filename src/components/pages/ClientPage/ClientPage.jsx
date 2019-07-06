@@ -73,7 +73,7 @@ class ClientPage extends React.Component {
                     <td>{client.phone}</td>
                     <td>{client.loans.length}</td>
                     <td>
-                      <Button type="secondary" variant="outlined">Ver préstamos</Button>
+                      <Button variant="outlined">Ver préstamos</Button>
                     </td>
                   </tr>
                 ))
