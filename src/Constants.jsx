@@ -5,5 +5,6 @@ export const Routes = {
   billPage: '/bill',
   loanPage: '/loans',
   clientPage: '/clients',
-  paymentPage: '/payment'
+  paymentPage: '/payment',
+  articlePage: '/articles'
 }

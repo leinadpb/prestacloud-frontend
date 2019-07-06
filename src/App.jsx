@@ -8,13 +8,14 @@ import { Routes } from './Constants';
 import MainLayout from './components/MainLayout/MainLayout';
 import axios from 'axios';
 import { ApiServer, STRIPE_KEY } from './Defaults';
-import 'antd/dist/antd';
 import Bill from './components/pages/Bill/Bill';
 import ClientPage from './components/pages/ClientPage/ClientPage';
 import LoanPage from './components/pages/LoanPage/LoanPage';
 import PaymentPage from './components/pages/PaymentPage/PaymentPage';
+import ArticlePage from './components/pages/ArticlePage/ArticlePage';
 import {Elements, StripeProvider} from 'react-stripe-elements';
 import 'react-credit-cards/lib/styles.scss';
+import 'antd/dist/antd';
 class App extends React.Component {
 
   constructor(props) {
@@ -27,7 +28,8 @@ class App extends React.Component {
         { label: 'Abrir préstamo', active: false, url: Routes.addLoan },
         { label: 'Clientes', active: false, url: Routes.clientPage },
         { label: 'Préstamos', active: false, url: Routes.loanPage },
-        { label: 'Efectuar pago', active: false, url: Routes.paymentPage }
+        { label: 'Efectuar pago', active: false, url: Routes.paymentPage },
+        { label: 'Artículos', active: false, url: Routes.articlePage }
       ]
     }
   }
@@ -135,6 +137,11 @@ class App extends React.Component {
                 exact
                 path={Routes.paymentPage}
                 render={() => isLoggedIn ? <PaymentPage user={user} /> :  <Redirect to={Routes.signInPage} />}
+              />
+              <Route
+                exact
+                path={Routes.articlePage}
+                render={() => isLoggedIn ? <ArticlePage user={user} /> :  <Redirect to={Routes.signInPage} />}
               />
             </MainLayout>
           </Switch>

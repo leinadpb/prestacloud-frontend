@@ -99,7 +99,7 @@ class LoanPage extends React.Component {
                 loans.map(loan => (
                   <tr>
                     <td>{loan.appraise * 1.18}</td>
-                    <td>{ loan.amount_to_pay }</td>
+                    <td>{ loan.amount_to_pay < 0 ? 0 : loan.amount_to_pay }</td>
                     <td>{ loan.status }</td>
                     <td>{`${loan.client.first_name} ${loan.client.last_name}`}</td>
                     <td>{`RD${numeral( (loan.appraise * 1.18) / loan.quotes.length).format("$0.00")}`}</td>

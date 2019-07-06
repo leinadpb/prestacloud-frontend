@@ -439,12 +439,12 @@ class PaymentPage extends React.Component {
                                 <LoanInfo>
                                   <InfoLabel>
                                     {
-                                      quote.state === "complete" ? <span>Pagada en</span> : <span>Expira en</span>
+                                      quote.state === "complete" ? <span>Pagada en</span> : (Date.now() > new Date(quote.expiry_date) ? <span></span> : <span>Expira en</span>)
                                     }
                                   </InfoLabel>
                                   <InfoValue>
                                     {
-                                      quote.state === "complete" ? <span>{ new Date(quote.created_at).toLocaleDateString() }</span> : <span>{ new Date(quote.expiry_date).toLocaleDateString() }</span>
+                                      quote.state === "complete" ? <span>{ new Date(quote.created_at).toLocaleDateString() }</span> : (Date.now() > new Date(quote.expiry_date) ? <span>EXPIRADA</span> : <span>{ new Date(quote.expiry_date).toLocaleDateString() }</span>)
                                     }
                                   </InfoValue>
                                 </LoanInfo>
