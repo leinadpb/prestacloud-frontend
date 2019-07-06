@@ -109,7 +109,10 @@ class PaymentPage extends React.Component {
     this.state = {
       client: undefined,
       openPaymentModal: false,
-      payLoan: false
+      payLoan: false,
+      openArticlesModal: false,
+      returnedArticles: [],
+      keptArticles: [],
     }
   }
   getDuration = (months) => {
@@ -229,6 +232,19 @@ class PaymentPage extends React.Component {
     })
     this.setState({
       client
+    }, () => {
+      if (loan.status == "on-time") {
+        this.setState({
+          returnedArticles: loan.articles,
+          openArticlesModal: true
+        })
+      }
+      if (loan.status == "expired") {
+        this.setState({
+          keptArticles: loan.articles,
+          openArticlesModal: true
+        })
+      }
     })
   }
 
@@ -283,8 +299,14 @@ class PaymentPage extends React.Component {
     return quotes;
   }
 
+  closeArticlesModal = () => {
+    this.setState({
+      openArticlesModal: false
+    })
+  }
+
   render() {
-    const { client, openPaymentModal, quote, loan, payLoan } = this.state;
+    const { client, openPaymentModal, quote, loan, payLoan, openArticlesModal, returnedArticles, keptArticles } = this.state;
     let paymentModalTitle = "Pagar Cuote";
     if (payLoan) {
       paymentModalTitle = "Pagar Prestamo";
@@ -477,6 +499,45 @@ class PaymentPage extends React.Component {
           <Elements>
             <PaymentQuoteContent payLoan={payLoan} title={paymentModalTitle} setStripeId={this.setStripeId} client={client} quote={quote} loan={loan} goverment_id={ !!client ? client.goverment_id : ''} handleClose={this.closePaymentModal} changeQuote={this.changeQuote} changeLoan={this.changeLoan} />
           </Elements>
+        </PCModal>
+        <PCModal
+          open={openArticlesModal}
+          handleClose={this.closeArticlesModal}
+          width="40%"
+          height="85%"
+          title="Articulos devueltos"
+          description="Articulos devuetlso"
+        >
+         <div style={{ width: '100%', height: '100%' }}>
+           <div style={{ width: '100%', textAlign: "center" }}>
+             <h4>Devolver Artículos</h4>
+             <hr style={{width: '90%'}} />
+           </div>
+           <div style={{ width: '100%', marginTop: '12px' }}>
+             <table class="table">
+               <thead>
+                 <tr>
+                   <th>Nombre</th>
+                   <th>Descripcion</th>
+                   <th>Precio real</th>
+                   <th>Precio acordado</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 {
+                   returnedArticles.map(art => (
+                     <tr>
+                       <td>{art.name}</td>
+                       <td>{art.description}</td>
+                       <td>{numeral(art.real_price).format("$0.00")}</td>
+                       <td>{numeral(art.agreement_price).format("$0.00")}</td>
+                     </tr>
+                   ))
+                 }
+              </tbody>
+             </table>
+           </div>
+         </div>
         </PCModal>
       </PageWrapper>
     );
