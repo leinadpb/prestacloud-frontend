@@ -89,7 +89,7 @@ class ArticlePage extends React.Component {
             </select>
           </FilterOption>
         </FilterPanel>
-        <div style={{ width: '100%', overflowX: 'scroll', maxHeight: '400px' }}>
+        <div style={{ width: '100%', overflowX: 'scroll', maxHeight: '400px', boxShadow: '0px 0px 8px 2px rgba(0, 0, 0, 0.1)' }}>
         <table class="table">
             <thead>
               <tr>
