@@ -74,7 +74,7 @@ class PaymentQuoteContent extends React.Component {
        </div>
        <br /><br />
        <div style={{ width: '100%', padding: '16px', minHeight: '42px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-         <span style={{ fontSize: '2.0rem', fontWeight: '600' }}>RD$ {payLoan ? loan.amount_to_pay : quote.amount}</span>
+         <span style={{ fontSize: '2.0rem', fontWeight: '600' }}>RD$ {payLoan ? loan.quotes.reduce( (acc, quote) => parseFloat(parseFloat(quote.amount) + acc) ) : quote.amount}</span>
        </div>
        <div style={{ width: '100%', padding: '16px', minHeight: '24px', display: 'flex', justifyContent: 'center', alignItems: 'center'  }}>
          Metodo de pago

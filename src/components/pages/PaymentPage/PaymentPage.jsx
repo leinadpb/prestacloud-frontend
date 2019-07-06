@@ -352,7 +352,7 @@ class PaymentPage extends React.Component {
                             <span>Monto a pagar</span>
                           </InfoLabel>
                           <InfoValue loan>
-                            <span>{ loan.amount_to_pay }</span>
+                            <span>{ loan.quotes.reduce( (acc, quote) => parseFloat(parseFloat(quote.amount) + acc) ) }</span>
                           </InfoValue>
                         </LoanInfo>
                         <LoanInfo>
