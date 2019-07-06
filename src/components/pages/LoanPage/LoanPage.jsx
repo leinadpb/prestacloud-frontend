@@ -102,7 +102,7 @@ class LoanPage extends React.Component {
                     <td>{ loan.amount_to_pay }</td>
                     <td>{ loan.status }</td>
                     <td>{`${loan.client.first_name} ${loan.client.last_name}`}</td>
-                    <td>{`RD${numeral(loan.appraise / loan.quotes.length).format("$0.00")}`}</td>
+                    <td>{`RD${numeral( (loan.appraise * 1.18) / loan.quotes.length).format("$0.00")}`}</td>
                     <td>{`${loan.quotes.length}`}</td>
                     <td>{this.getDuration(loan.duration)}</td>
                     <td>{Number(loan.tax) * 100}%</td>
