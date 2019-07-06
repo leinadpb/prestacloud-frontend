@@ -36,6 +36,8 @@ const Quotes = styled.div`
   flex-direction: column;
   width: 100%;
   justify-content: flex-start;
+  max-height: 30%;
+  overflow: scroll;
 `;
 
 class Bill extends React.Component {
